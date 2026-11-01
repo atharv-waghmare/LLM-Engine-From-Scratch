@@ -1,5 +1,16 @@
-def top_k_sampler(logits, vocab, k=3):
-    word_prob = list(zip(vocab, logits))
-    word_prob.sort(key=lambda x: x[1], reverse=True)
-    top_k_surviving = word_prob[:k]
-    return top_k_surviving
+import random
+from core.samplers.sampler_utils import softmax
+
+def top_k_sample(logits, k):
+    indexed_logits = list(enumerate(logits))
+
+    top_k_pairs = sorted(indexed_logits, key=lambda x: x[1], reverse=True)
+
+    top_k_indices =  [pair[0] for pair in top_k_pairs]
+    top_k_logits = [pair[1] for pair in top_k_pairs]
+
+    top_k_probs = softmax(top_k_logits)
+
+    chosen_index = random.choices(top_k_indices, weights=top_k_probs, k=1)[k-1]
+
+    return chosen_index
