@@ -1,4 +1,4 @@
-from core.samplers.topk_sampler import top_k_sample
+from sampling.samplers.topk_sampler import top_k_sample
 
 def test_top_k_k1_greedy():
     logits = [1.0, 2.0, 50.0, -100.0, 0.5]
