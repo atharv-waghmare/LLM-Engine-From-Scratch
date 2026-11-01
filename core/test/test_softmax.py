@@ -1,4 +1,4 @@
-from core.samplers.topk_sampler import softmax
+from core.samplers.sampler_utils import softmax
 
 def test_softmax_basic():
   logits = [1.0, 2.0, 3.0]
