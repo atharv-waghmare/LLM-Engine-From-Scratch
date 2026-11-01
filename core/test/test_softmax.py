@@ -10,5 +10,5 @@ def test_softmax_stability():
   massive_logits = [1000.0, 1000.0]
   probs = softmax(massive_logits)
 
-assert probs[0] == 0.5
-assert probs[1] == 0.5
+  assert probs[0] == 0.5
+  assert probs[1] == 0.5
