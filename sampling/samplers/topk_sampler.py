@@ -1,5 +1,5 @@
 import random
-from core.samplers.sampler_utils import softmax
+from sampling.samplers.sampler_utils import softmax
 
 def top_k_sample(logits, k):
     indexed_logits = list(enumerate(logits))
