@@ -11,6 +11,6 @@ def top_k_sample(logits, k):
 
     top_k_probs = softmax(top_k_logits)
 
-    chosen_index = random.choices(top_k_indices, weights=top_k_probs, k=1)[k-1]
+    chosen_index = random.choices(top_k_indices, weights=top_k_probs, k=1)[0]
 
     return chosen_index
