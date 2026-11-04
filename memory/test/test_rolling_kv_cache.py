@@ -13,7 +13,7 @@ def test_rolling_kv_cache_eviction():
 
   cache.add('K4', 'V4')
 
-  max_context = cache.get_current_context()
+  new_context = cache.get_current_context()
   assert len(new_context) == 3
   assert new_context[0] == ('K2', 'V2')
   
