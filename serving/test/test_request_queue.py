@@ -10,7 +10,7 @@ def test_fifo_ordering():
   queue.add_request(req1)
   queue.add_request(req2)
 
-  assert = len(queue) == 2
+  assert len(queue) == 2
   assert queue.pop_request().request_id == 'req-1'
   assert queue.pop_request().request_id == 'req-2'
   assert queue.is_empty() 
