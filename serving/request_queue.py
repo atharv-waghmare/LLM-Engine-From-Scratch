@@ -21,7 +21,7 @@ class FIFOQueue:
     raise IndexError("Cannot pop from an empty queue")
     
   def is_empty(self) -> bool:
-    return len(self._queue) == 0
+    return len(self.queue) == 0
 
   def __len__(self):
     return len(self.queue)
