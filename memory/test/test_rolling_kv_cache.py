@@ -1,4 +1,4 @@
-from serving.memory.rolling_kv_cache import RollingKVCache
+from memory.rolling_kv_cache import RollingKVCache
 
 def test_rolling_kv_cache_eviction():
   cache = RollingKVCache(max_context_length=3)
