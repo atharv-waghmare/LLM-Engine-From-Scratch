@@ -1,4 +1,4 @@
-from data_pipeline import bpe
+from data_pipeline.bpe import bpe
 
 def test_bpe_pair_counts():
   corpus = ['app', 'apple', 'application']
