@@ -13,7 +13,7 @@ class FIFOQueue:
     self.queue = deque()
 
   def add_request(self, request: Request):
-    self._queue.append(request)
+    self.queue.append(request)
 
   def pop_request(self) -> Request:
     if not self.is_empty():
