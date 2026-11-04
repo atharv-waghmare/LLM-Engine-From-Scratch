@@ -1,4 +1,4 @@
-from samplers.topp_sampler import top_p_samplers
+from sampling.samplers.topp_sampler import top_p_samplers
 
 def test_top_p_standard_cutoff():
   word_prob = [('a', 0.4), ('b', 0.3), ('c', 0.2), ('d', 0.1)]
