@@ -17,7 +17,7 @@ class FIFOQueue:
 
   def pop_request(self) -> Request:
     if not self.is_empty():
-      return self._queue.popleft()
+      return self.queue.popleft()
     raise IndexError("Cannot pop from an empty queue")
     
   def is_empty(self) -> bool:
