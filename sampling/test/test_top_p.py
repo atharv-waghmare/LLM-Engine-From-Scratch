@@ -8,7 +8,7 @@ def test_top_p_standard_cutoff():
   assert len(result) == 3
   assert result[0][0] == 'a'
   assert result[1][0] == 'b'
-  assert restul[2][0] == 'c'
+  assert result[2][0] == 'c'
 
 def test_top_p_early_stop():
   word_prob = [('a', 0.4), ('b', 0.3), ('c', 0.2), ('d', 0.1)]
@@ -21,7 +21,7 @@ def test_top_p_early_stop():
 def test_top_p_full_vocab():
   word_prob = [('a', 0.4), ('b', 0.3), ('c', 0.2), ('d', 0.1)]
   
-  result = top_p_samplers(word_prob, p=0.1)
+  result = top_p_samplers(word_prob, p=1.0)
 
   assert len(result) == 4
 
