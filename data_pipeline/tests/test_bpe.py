@@ -9,4 +9,4 @@ def test_bpe_pair_counts():
   assert counts[('a', 'p')] == 3
   assert counts[('o', 'n')] == 1
 
-  assert most_common[(('a', 'p'), 3)]
+  assert most_common[0] == (('a', 'p'), 3)
