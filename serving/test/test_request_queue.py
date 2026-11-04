@@ -1,5 +1,4 @@
-from request_queue import FIFOQueue
-from request_queue import Request
+from serving.request_queue import FIFOQueue, Request
 import time
 
 def test_fifo_ordering():
