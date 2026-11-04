@@ -3,7 +3,7 @@ from itertools import accumulate
 from bisect import bisect_left
 
 from sampling.samplers.topk_sampler import top_k_sample
-from sampling.samplers.topp_sampler import top_p_sample
+from sampling.samplers.topp_sampler import top_p_samplers
 from sampling.samplers.sampler_utils import softmax
 
 def sample_next_word(logits, temperature=1.0, top_k = 0, top_p = 1.0):
