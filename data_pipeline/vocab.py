@@ -32,7 +32,7 @@ class Vocabulary:
 def encode(self, tokens):
     return [self.get_id(token) for token in tokens]
 
-def decode(self, tokens):
+def decode(self, token_ids):
     return [self.get_token(token_id) for token_id in token_ids]
 
 def __contains__(self, tokens):
