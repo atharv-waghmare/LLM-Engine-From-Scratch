@@ -22,6 +22,8 @@ class ContinuousBatchScheduler:
         
         for req in list(self.waiting):
             blocks_needed = (req.prompt_tokens + self.block_size - 1) // self.block_size
+
+            
             
             try:
                 blocks = self.allocator.allocate(blocks_needed)
