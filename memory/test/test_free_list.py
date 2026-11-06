@@ -31,7 +31,7 @@ def test_allocate_fragmented():
     
     b4 = allocator.allocate(15)
     assert b4 == list(range(0, 10)) + list(range(20, 25))
-    assert allocator.free_intervals == [(25, 29), (30, 99)]
+    assert allocator.free_intervals == [(25, 99)]
 
 def test_out_of_memory():
     allocator = KVCacheAllocator(total_blocks=20)
