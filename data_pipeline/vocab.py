@@ -29,14 +29,14 @@ class Vocabulary:
 
         return self.id_to_token[token_id]
     
-def encode(self, tokens):
-    return [self.get_id(token) for token in tokens]
+    def encode(self, tokens):
+        return [self.get_id(token) for token in tokens]
 
-def decode(self, token_ids):
-    return [self.get_token(token_id) for token_id in token_ids]
+    def decode(self, token_ids):
+        return [self.get_token(token_id) for token_id in token_ids]
 
-def __contains__(self, tokens):
-    return token in self.token_to_id
+    def __contains__(self, tokens):
+        return token in self.token_to_id
 
-def __len__(self):
-    return len(self.id_to_token)
+    def __len__(self):
+        return len(self.id_to_token)
