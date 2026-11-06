@@ -2,34 +2,36 @@ import time
 from typing import Dict, List, Optional, Any
 
 class RadixNode:
-  def __init__(self, key: List[int], value: Any = None):
-    self.key: List[int] = key
-    self.value: Any = value
-    self.children: Dict[int, 'RadixNode'] = None
-    self.ref_count: int = 0
-    
-  def update_access_time(self):
-    self.last_access_time = time.time()
+    def __init__(self, key: List[int], value: Any = None):
+        self.key: List[int] = key
+        self.value: Any = value 
+        self.children: Dict[int, 'RadixNode'] = {}
+        self.parent: Optional['RadixNode'] = None
+        self.last_access_time: float = time.time()
+        self.ref_count: int = 0
+
+    def update_access_time(self):
+        self.last_access_time = time.time()
 
 class RadixCache:
-  def __init__(self, capacity_blocks: int):
-    self.root = RadixNode(key=[])
-    self.capacity_blocks = capacity_blocks
-    self.current_blocks = 0
-    
-  def match_prefix(self, tokens: List[int]):
-    node = self.root
-    matched_len = 0
-    
-    while matched_len < len(tokens):
-      target_token = tokens[matched_len]
-      if target_token not in node.children:
-        break
+    def __init__(self, capacity_blocks: int):
+        self.root = RadixNode(key=[])
+        self.capacity_blocks = capacity_blocks
+        self.current_blocks = 0
+
+    def match_prefix(self, tokens: List[int]):
+        node = self.root
+        matched_len = 0
         
-      child = node.children[target_token]
-      child_key_len = len(child.key)
-      
-      match_in_edge = 0
+        while matched_len < len(tokens):
+            target_token = tokens[matched_len]
+            if target_token not in node.children:
+                break
+                
+            child = node.children[target_token]
+            child_key_len = len(child.key)
+            
+            match_in_edge = 0
             while (match_in_edge < child_key_len and 
                    matched_len + match_in_edge < len(tokens) and
                    child.key[match_in_edge] == tokens[matched_len + match_in_edge]):
