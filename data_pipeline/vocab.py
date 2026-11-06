@@ -6,7 +6,7 @@ class Vocabulary:
         for token in tokens:
             self.add_token(token)
 
-    def add_tokens(self, token):
+    def add_token(self, token):
         if not isinstance(token, str):
             raise TypeError('token must be a string')
 
