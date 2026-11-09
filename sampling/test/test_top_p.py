@@ -1,6 +1,5 @@
 from sampling.samplers.topp_sampler import lower_bound, top_p_filter
 
-
 def test_lower_bound():
     arr = [0.2, 0.4, 0.7, 0.9, 1.0]
 
