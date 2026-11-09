@@ -12,7 +12,6 @@ def lower_bound(arr, target):
 
     return left
 
-
 def top_p_filter(word_prob, p=0.9):
     sorted_pairs = sorted(
         word_prob,
