@@ -47,3 +47,4 @@ def apply_merges(word, merges):
     for pair in merges:
         tokens = merge_pair([tokens], pair)[0]
     return tokens
+
