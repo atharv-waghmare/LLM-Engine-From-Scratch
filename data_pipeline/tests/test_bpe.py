@@ -1,4 +1,4 @@
-from data_pipeline, bpe import count_pairs, merge_pair, test_train_bpe
+from data_pipeline.bpe import count_pairs, merge_pair, test_train_bpe
 
 
 def test_count_pairs():
