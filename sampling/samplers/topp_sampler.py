@@ -14,12 +14,6 @@ def lower_bound(arr, target):
 
 
 def top_p_filter(word_prob, p=0.9):
-    if not 0 < p <= 1:
-        raise ValueError("p must be between 0 and 1")
-
-    if not word_prob:
-        return []
-
     sorted_pairs = sorted(
         word_prob,
         key=lambda item: item[1],
