@@ -1,15 +1,15 @@
-from sampling.samplers.topk_sampler import top_k_sample
+from sampling.samplers.topk_sampler import top_k_indices, top_k_sample
 
-def test_top_k_k1_greedy():
-    logits = [1.0, 2.0, 50.0, -100.0, 0.5]
 
-    chosen_index = top_k_sample(logits, k=1)
+def test_top_k_indices():
+    logits = [10, 9, 8, 1]
 
-    assert chosen_index == 2
+    assert top_k_indices(logits, 2) == [0, 1]
 
-def test_top_k_bounds():
-    logits = [10.0, 9.0, 8.0, 1.0]
 
-    chosen_index = top_k_sample(logits, k=2)
+def test_top_k_sample():
+    logits = [10, 9, 8, 1]
 
-    assert chosen_index in [0, 1]
+    result = top_k_sample(logits, 2)
+
+    assert result in [0, 1]
