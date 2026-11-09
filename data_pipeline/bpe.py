@@ -1,67 +1,49 @@
 from collections import Counter
 
 
-def bpe(corpus):
-    pair_counts = Counter()
-
-    for word in corpus:
-        symbols = list(word)
-
-        for i in range(len(symbols) - 1):
-            pair_counts[(symbols[i], symbols[i + 1])] += 1
-
-    return pair_counts
+def count_pairs(words):
+    counts = Counter()
+    for word in words:
+        counts.update(zip(word, word[1:]))
+    return counts
 
 
-def merge_pair(sequences, pair):
-    merged_sequences = []
+def merge_pair(words, pair):
+    merged_words = []
 
-    for sequence in sequences:
+    for word in words:
         merged = []
         i = 0
-
-        while i < len(sequence):
-            if i < len(sequence) - 1 and (sequence[i], sequence[i + 1]) == pair:
-                merged.append(sequence[i] + sequence[i + 1])
+        while i < len(word):
+            if i < len(word) - 1 and (word[i], word[i + 1]) == pair:
+                merged.append(word[i] + word[i + 1])
                 i += 2
             else:
-                merged.append(sequence[i])
+                merged.append(word[i])
                 i += 1
+        merged_words.append(merged)
 
-        merged_sequences.append(merged)
-
-    return merged_sequences
+    return merged_words
 
 
 def train_bpe(corpus, num_merges):
-    if num_merges < 0:
-        raise ValueError("num_merges must be non-negative")
-
-    sequences = [list(word) for word in corpus]
+    words = [list(word) for word in corpus]
     merges = []
 
     for _ in range(num_merges):
-        pair_counts = Counter()
-
-        for sequence in sequences:
-            for i in range(len(sequence) - 1):
-                pair_counts[(sequence[i], sequence[i + 1])] += 1
-
-        if not pair_counts:
+        counts = count_pairs(words)
+        if not counts:
             break
 
-        best_pair = max(pair_counts, key=pair_counts.get)
-
-        sequences = merge_pair(sequences, best_pair)
+        best_pair = max(counts, key=counts.get)
+        words = merge_pair(words, best_pair)
         merges.append(best_pair)
 
     return merges
 
 
 def apply_merges(word, merges):
-    sequence = list(word)
-
+    tokens = list(word)
     for pair in merges:
-        sequence = merge_pair([sequence], pair)[0]
-
-    return sequence
+        tokens = merge_pair([tokens], pair)[0]
+    return tokens
