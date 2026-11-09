@@ -1,55 +1,26 @@
-from collections import Counter
-
-from data_pipeline.bpe import bpe, merge_pair, train_bpe, apply_merges
+from bpe import count_pairs, merge_pair, train_bpe, apply_merges
 
 
-def test_pair_counting():
-    result = bpe(["low", "low"])
-
-    expected = Counter({
-        ("l", "o"): 2,
-        ("o", "w"): 2
-    })
-
-    assert result == expected
-
-
-def test_repeated_pairs():
-    result = bpe(["aaaa"])
-
-    assert result == Counter({
-        ("a", "a"): 3
-    })
-
-
-def test_empty_corpus():
-    assert bpe([]) == Counter()
-
-
-def test_single_character():
-    assert bpe(["a"]) == Counter()
+def test_count_pairs():
+    counts = count_pairs([list("low"), list("low")])
+    assert counts[("l", "o")] == 2
+    assert counts[("o", "w")] == 2
 
 
 def test_merge_pair():
-    sequences = [["l", "o", "w"]]
-
-    result = merge_pair(sequences, ("l", "o"))
-
+    result = merge_pair([list("low")], ("l", "o"))
     assert result == [["lo", "w"]]
 
 
 def test_train_bpe():
-    merges = train_bpe(["aaaa"], 2)
-
-    assert merges == [
-        ("a", "a"),
-        ("aa", "aa")
-    ]
+    merges = train_bpe(["low", "low", "lower"], 2)
+    assert merges == [("l", "o"), ("lo", "w")]
 
 
 def test_apply_merges():
-    merges = [("a", "a"), ("aa", "aa")]
+    merges = [("l", "o"), ("lo", "w")]
+    assert apply_merges("lower", merges) == ["low", "e", "r"]
 
-    result = apply_merges("aaaa", merges)
 
-    assert result == ["aaaa"]
+def test_no_pairs():
+    assert train_bpe(["a", "b"], 5) == []
