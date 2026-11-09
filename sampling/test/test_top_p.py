@@ -1,34 +1,33 @@
-from sampling.samplers.topp_sampler import top_p_samplers
+from sampling.samplers.topp_sampler import lower_bound, top_p_filter
 
-def test_top_p_standard_cutoff():
-  word_prob = [('a', 0.4), ('b', 0.3), ('c', 0.2), ('d', 0.1)]
 
-  result = top_p_samplers(word_prob, p=0.8)
+def test_lower_bound():
+    arr = [0.2, 0.4, 0.7, 0.9, 1.0]
 
-  assert len(result) == 3
-  assert result[0][0] == 'a'
-  assert result[1][0] == 'b'
-  assert result[2][0] == 'c'
+    assert lower_bound(arr, 0.7) == 2
+    assert lower_bound(arr, 0.5) == 2
+    assert lower_bound(arr, 1.1) == 5
 
-def test_top_p_early_stop():
-  word_prob = [('a', 0.4), ('b', 0.3), ('c', 0.2), ('d', 0.1)]
 
-  result = top_p_samplers(word_prob, p=0.3)
-  
-  assert len(result) == 1
-  assert result[0][0] == 'a'
+def test_top_p_filter():
+    words = [
+        ("hello", 0.4),
+        ("world", 0.3),
+        ("AI", 0.2),
+        ("Python", 0.1)
+    ]
 
-def test_top_p_full_vocab():
-  word_prob = [('a', 0.4), ('b', 0.3), ('c', 0.2), ('d', 0.1)]
-  
-  result = top_p_samplers(word_prob, p=1.0)
+    assert top_p_filter(words, 0.7) == [
+        ("hello", 0.4),
+        ("world", 0.3)
+    ]
 
-  assert len(result) == 4
 
-def top_p_unsorted_input():
-  word_prob = [('a', 0.4), ('b', 0.3), ('c', 0.2), ('d', 0.1)]
-  result = top_p_samplers(word_prob, p=0.6)
+def test_top_p_keeps_all():
+    words = [("hello", 0.6), ("world", 0.4)]
 
-  assert len(result) == 2
-  assert result[0][0] == 'a'
-  assert result[1][0] == 'b'
+    assert len(top_p_filter(words, 1.0)) == 2
+
+
+def test_empty_input():
+    assert top_p_filter([], 0.9) == []
