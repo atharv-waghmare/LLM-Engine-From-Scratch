@@ -42,3 +42,14 @@ def test_invalid_token_id():
 
     with pytest.raises(IndexError):
         vocab.get_token(5)
+
+def test_contains():
+    vocab = Vocabulary(["hello"])
+    assert "hello" in vocab
+    assert "nope" not in vocab
+
+
+def test_default_argument_not_shared():
+    a = Vocabulary()
+    a.add_token("x")
+    assert len(Vocabulary()) == 0
