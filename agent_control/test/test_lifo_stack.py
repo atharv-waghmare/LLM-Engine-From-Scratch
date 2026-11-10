@@ -43,5 +43,5 @@ def test_agent_state_rollback():
   state['turn'] = 2
   state['context'].append('tool_3_success)
 
-  assert state == {'turn': 2, 'context': ['tool_1_success', 'tool_3_success]}
+  assert state == {'turn': 2, 'context': ['tool_1_success', 'tool_3_success']}
   
