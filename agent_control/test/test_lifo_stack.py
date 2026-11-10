@@ -28,7 +28,7 @@ def test_agent_state_rollback():
   state['context'].append('tool_1_success')
 
   
-  state.push(copy.deepcopy(state))
+  stack.push(copy.deepcopy(state))
   try:
     state['turn'] = 2
     state['context'].append('tool_2_crash')
