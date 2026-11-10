@@ -1,30 +1,33 @@
 import random
-from itertools import accumulate
 from bisect import bisect_left
+from itertools import accumulate
 
-from sampling.samplers.topk_sampler import top_k_sample
-from sampling.samplers.topp_sampler import top_p_filter
 from sampling.samplers.sampler_utils import softmax
+from sampling.samplers.topk_sampler import top_k_indices
+from sampling.samplers.topp_sampler import top_p_filter
 
-def sample_next_word(logits, temperature=1.0, top_k = 0, top_p = 1.0):
-  if temperature != 1.0 and temperature > 0:
+
+def sample_next_word(logits, temperature=1.0, top_k=0, top_p=1.0):
+    if not logits:
+        raise ValueError("logits must not be empty")
+    if temperature < 0:
+        raise ValueError("temperature must be >= 0")
+
+    if temperature == 0:
+        return max(range(len(logits)), key=lambda i: (logits[i], -i))
+
     logits = [l / temperature for l in logits]
+    probs = softmax(logits)
+    candidates = list(enumerate(probs)) 
 
-  if top_k > 0:
-    logits = top_k_sample(logits, k=top_k)
+    if top_k > 0:
+        candidates = [(i, probs[i]) for i in top_k_indices(logits, top_k)]
 
-  probs = softmax(logits)
+    if top_p < 1.0:
+        candidates = top_p_filter(candidates, top_p)
 
-  if top_p < 1.0:
-    probs = top_p_sample(probs, p=top_p)
+    total = sum(p for _, p in candidates)      
+    cdf = list(accumulate(p / total for _, p in candidates))
 
-  total_prob = sum(probs)
-  normalized_probs = [p / total_prob for p in probs]
-
-  cdf = list(accumulate(normalized_probs))
-
-  dice_roll = random.random()
-
-  chosen_token_id = bisect_left(cdf, dice_roll)
-
-  return chosen_token_id
+    idx = min(bisect_left(cdf, random.random()), len(cdf) - 1)
+    return candidates[idx][0]
