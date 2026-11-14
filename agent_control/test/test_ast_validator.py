@@ -10,3 +10,10 @@ def test_unsafe():
     for s in unsafe:
         with pytest.raises(SecurityException): 
             validate_code(s)
+
+def test_known_bypasses_blocked():
+    import pytest
+    for s in ["__import__('os')", "open('/etc/passwd')", "getattr(x, 'y')", "compile('1','a','eval')",
+              "globals()", "f = eval", "x = __builtins__", "vars()", "input()"]:
+        with pytest.raises(SecurityException):
+            validate_code(s)
